@@ -13,7 +13,9 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "autoprefixer": "^9",
+    "eslint-plugin-jest": "^24.1.5",
     "postcss": "^7",
+    "postcss-cli": "^7",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.3",
@@ -25,9 +27,11 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public",
-    "lint": "eslint"
+    "storybook": "yarn build-styles:watch | start-storybook -p 6006 -s public",
+    "build-storybook": "yarn build-styles && build-storybook -s public",
+    "lint": "eslint src/**/*.tsx",
+    "build-styles": "postcss src/index.css -o src/styles.css",
+    "build-styles:watch": "yarn build-styles -w"
   },
   "browserslist": {
     "production": [
@@ -49,6 +53,9 @@
     "@storybook/preset-create-react-app": "^3.1.6",
     "@storybook/react": "^6.1.19",
     "eslint": "^7.20.0",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "eslint-plugin-testing-library": "^3.10.1",
     "husky": "^5.1.1",
     "lint-staged": "^10.5.4"
   }
