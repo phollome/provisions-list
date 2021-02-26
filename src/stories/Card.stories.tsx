@@ -11,7 +11,9 @@ export default {
 } as Meta;
 
 const Template: Story = (args) => <Card {...(args as CardProps)} />;
+
 export const Default = Template.bind({});
 Default.args = { name: "Item" };
+
 export const InitialValue = Template.bind({});
 InitialValue.args = { name: "Item with initial value", value: 5 };

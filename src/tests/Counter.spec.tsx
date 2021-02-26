@@ -3,18 +3,51 @@ import user from "@testing-library/user-event";
 
 import Counter from "../components/Counter";
 
-test("increment", () => {
+test("count", () => {
   const onChange = jest.fn();
+
   render(<Counter onChange={onChange} />);
-  const button = screen.queryByTestId("button-increment") as HTMLButtonElement;
-  user.click(button);
-  expect(onChange).toHaveBeenLastCalledWith({ count: 1 });
+
+  const increment = screen.queryByTestId(
+    "button-increment"
+  ) as HTMLButtonElement;
+  user.click(increment);
+  expect(onChange).toHaveBeenLastCalledWith({ value: 1 });
+
+  const decrement = screen.queryByTestId(
+    "button-decrement"
+  ) as HTMLButtonElement;
+  user.click(decrement);
+  expect(onChange).toHaveBeenLastCalledWith({ value: 0 });
+
+  expect(onChange).toHaveBeenCalledTimes(3); // default (0) + 2 clicks
+
+  render(<Counter defaultValue={5} onChange={onChange} />);
+  expect(onChange).toHaveBeenLastCalledWith({ value: 5 });
 });
 
-test("initial value and decrement", () => {
-  const onChange = jest.fn();
-  render(<Counter onChange={onChange} initialValue={5} />);
-  const button = screen.queryByTestId("button-decrement") as HTMLButtonElement;
-  user.click(button);
-  expect(onChange).toHaveBeenLastCalledWith({ count: 4 });
+test("controlled count", () => {
+  const onIncrement = jest.fn();
+  const onDecrement = jest.fn();
+
+  const { rerender } = render(
+    <Counter value={4} onIncrement={onIncrement} onDecrement={onDecrement} />
+  );
+
+  const increment = screen.queryByTestId(
+    "button-increment"
+  ) as HTMLButtonElement;
+  user.click(increment);
+
+  rerender(
+    <Counter value={5} onIncrement={onIncrement} onDecrement={onDecrement} />
+  );
+
+  const decrement = screen.queryByTestId(
+    "button-decrement"
+  ) as HTMLButtonElement;
+  user.click(decrement);
+
+  expect(onIncrement).toHaveBeenNthCalledWith(1, 5, 4);
+  expect(onDecrement).toHaveBeenNthCalledWith(1, 4, 5);
 });

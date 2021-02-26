@@ -6,14 +6,20 @@ import Counter from "../components/Counter";
 export default {
   title: "Components/Counter",
   component: Counter,
-  argTypes: {
-    initialValue: { control: { disable: true, type: "number" } },
-  },
+  argTypes: { defaultValue: { control: { disable: true, type: "number" } } },
 } as Meta;
 
 const Template: Story = (args) => (
   <Counter onChange={action("counter value changed")} {...args} />
 );
+
 export const Default = Template.bind({});
-export const InitialValue = Template.bind({});
-InitialValue.args = { initialValue: 5 };
+Default.argTypes = {};
+
+export const WithDefaultValue = Template.bind({});
+WithDefaultValue.args = {
+  defaultValue: 5,
+};
+WithDefaultValue.argTypes = {
+  value: { control: { disable: true, type: "number" } },
+};

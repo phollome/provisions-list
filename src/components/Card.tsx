@@ -1,14 +1,19 @@
 import { FocusEventHandler, useEffect, useRef, useState } from "react";
-import Counter, { CounterState } from "./Counter";
+import Counter from "./Counter";
 
 export interface CardProps {
   name: string;
-  value?: number;
+  value: number;
+  positiveOnly?: boolean;
+  onChange?: (state: { name: string; value: number }) => void;
 }
 
 const Card = (props: CardProps) => {
+  const { name, onChange } = props;
+
   const ref = useRef<HTMLDivElement | null>(null);
   const [focused, setFocused] = useState(false);
+  const [value, setValue] = useState(props.value);
 
   useEffect(() => {
     const keydownHandler = (evt: KeyboardEvent) => {
@@ -37,6 +42,12 @@ const Card = (props: CardProps) => {
     return () => window.removeEventListener("keydown", keydownHandler);
   }, [focused]);
 
+  useEffect(() => {
+    if (onChange !== undefined) {
+      onChange({ name, value });
+    }
+  }, [onChange, name, value]);
+
   const handleFocus: FocusEventHandler = (event) => {
     if (event.target === ref.current) {
       setFocused(true);
@@ -45,7 +56,20 @@ const Card = (props: CardProps) => {
     }
   };
 
-  const handleChange = (state: CounterState) => {};
+  const handleIncrement = (value: number) => {
+    if (props.positiveOnly && value < 0) {
+      setValue(0);
+    } else {
+      setValue(value);
+    }
+  };
+  const handleDecrement = (value: number, prevValue: number) => {
+    if (props.positiveOnly && value < 0) {
+      setValue(prevValue < 0 ? 0 : prevValue);
+    } else {
+      setValue(value);
+    }
+  };
 
   return (
     <div
@@ -59,9 +83,18 @@ const Card = (props: CardProps) => {
       <h2 data-testid="card-name" className="mr-4">
         {props.name}
       </h2>
-      <Counter onChange={handleChange} initialValue={props.value} />
+      <Counter
+        value={value}
+        onIncrement={handleIncrement}
+        onDecrement={handleDecrement}
+      />
     </div>
   );
+};
+
+Card.defaultProps = {
+  value: 0,
+  positiveOnly: true,
 };
 
 export default Card;

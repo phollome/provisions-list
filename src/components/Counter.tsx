@@ -1,15 +1,14 @@
 import { Reducer, useEffect, useReducer } from "react";
 
-interface CounterAction {
+interface Action {
   type: string;
 }
-
-export interface CounterState {
-  count: number;
+interface State {
+  value: number;
 }
 
-const initialState: CounterState = {
-  count: 0,
+const InitialState = {
+  value: 0,
 };
 
 const ActionTypes = {
@@ -17,37 +16,36 @@ const ActionTypes = {
   Decrement: "decrement",
 };
 
-const reducer: Reducer<CounterState, CounterAction> = (
-  prevState: CounterState,
-  action: CounterAction
-) => {
+const reducer: Reducer<State, Action> = (prevState: State, action: Action) => {
   switch (action.type) {
     case ActionTypes.Increment:
-      return { count: prevState.count + 1 };
+      return { value: prevState.value + 1 };
     case ActionTypes.Decrement:
-      return prevState.count > 0
-        ? { count: prevState.count - 1 }
-        : { ...prevState };
+      return { value: prevState.value - 1 };
     default:
       return prevState;
   }
 };
 
 function Counter(props: {
-  initialValue?: number;
-  onChange: (state: CounterState) => void;
+  defaultValue?: number;
+  value?: number;
+  onChange?: (state: { value: number }) => void;
+  onIncrement?: (value: number, prevValue: number) => void;
+  onDecrement?: (value: number, prevValue: number) => void;
 }) {
-  const { initialValue, onChange } = props;
-
+  const { onChange } = props;
   const [state, dispatch] = useReducer(
     reducer,
-    initialValue !== undefined && initialValue !== null
-      ? { count: initialValue }
-      : initialState
+    props.defaultValue !== undefined
+      ? { value: props.defaultValue }
+      : InitialState
   );
 
   useEffect(() => {
-    onChange(state);
+    if (onChange !== undefined) {
+      onChange(state);
+    }
   }, [onChange, state]);
 
   return (
@@ -56,7 +54,11 @@ function Counter(props: {
         id="button-decrement"
         data-testid="button-decrement"
         className="h-10 w-10 border rounded-full flex items-center justify-center"
-        onClick={() => dispatch({ type: ActionTypes.Decrement })}
+        onClick={() =>
+          props.onDecrement !== undefined && props.value !== undefined
+            ? props.onDecrement(props.value - 1, props.value)
+            : dispatch({ type: ActionTypes.Decrement })
+        }
       >
         -
       </button>
@@ -64,13 +66,17 @@ function Counter(props: {
         data-testid="counter-value"
         className="h-10 w-10 flex items-center justify-center text-lg"
       >
-        {state.count}
+        {props.value !== undefined ? props.value : state.value}
       </div>
       <button
         id="button-increment"
         data-testid="button-increment"
         className="h-10 w-10 border rounded-full flex items-center justify-center"
-        onClick={() => dispatch({ type: ActionTypes.Increment })}
+        onClick={() =>
+          props.onIncrement !== undefined && props.value !== undefined
+            ? props.onIncrement(props.value + 1, props.value)
+            : dispatch({ type: ActionTypes.Increment })
+        }
       >
         +
       </button>
