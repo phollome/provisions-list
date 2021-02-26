@@ -1,14 +1,14 @@
 import { Reducer, useEffect, useReducer } from "react";
 
-interface Action {
+interface CounterAction {
   type: string;
 }
 
-interface State {
+export interface CounterState {
   count: number;
 }
 
-const initialState: State = {
+const initialState: CounterState = {
   count: 0,
 };
 
@@ -17,7 +17,10 @@ const ActionTypes = {
   Decrement: "decrement",
 };
 
-const reducer: Reducer<State, Action> = (prevState: State, action: Action) => {
+const reducer: Reducer<CounterState, CounterAction> = (
+  prevState: CounterState,
+  action: CounterAction
+) => {
   switch (action.type) {
     case ActionTypes.Increment:
       return { count: prevState.count + 1 };
@@ -32,7 +35,7 @@ const reducer: Reducer<State, Action> = (prevState: State, action: Action) => {
 
 function Counter(props: {
   initialValue?: number;
-  onChange: (state: { count: number }) => void;
+  onChange: (state: CounterState) => void;
 }) {
   const { initialValue, onChange } = props;
 
@@ -50,16 +53,21 @@ function Counter(props: {
   return (
     <div className="flex justify-center">
       <button
+        id="button-decrement"
         data-testid="button-decrement"
         className="h-10 w-10 border rounded-full flex items-center justify-center"
         onClick={() => dispatch({ type: ActionTypes.Decrement })}
       >
         -
       </button>
-      <div className="h-10 w-10 flex items-center justify-center text-lg">
+      <div
+        data-testid="counter-value"
+        className="h-10 w-10 flex items-center justify-center text-lg"
+      >
         {state.count}
       </div>
       <button
+        id="button-increment"
         data-testid="button-increment"
         className="h-10 w-10 border rounded-full flex items-center justify-center"
         onClick={() => dispatch({ type: ActionTypes.Increment })}
