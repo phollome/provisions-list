@@ -74,7 +74,7 @@ const Card = (props: CardProps) => {
       ref={ref}
       tabIndex={0}
       className={classnames(
-        "flex items-center justify-between w-full px-4 py-2 border rounded",
+        "flex items-center justify-between w-full px-4 py-2 border rounded focus:border-gray-400 focus:outline-none",
         props.classList
       )}
       onFocus={handleFocus}

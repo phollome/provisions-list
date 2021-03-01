@@ -21,7 +21,7 @@ const SearchInput = (props: SearchInputProps) => {
           id="search-input"
           data-testid="search-input"
           ref={inputRef}
-          className="w-full p-2 border-2 rounded"
+          className="w-full p-2 border-2 rounded focus:border-gray-400 focus:outline-none"
           onChange={props.onChange}
           placeholder="Press ⌘K or ^K to search"
           aria-placeholder="press command and K or control and K to search"
