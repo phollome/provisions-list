@@ -1,15 +1,18 @@
 import { FocusEventHandler, useEffect, useRef, useState } from "react";
+import classnames from "classnames";
 import Counter from "./Counter";
 
 export interface CardProps {
+  _id: number;
   name: string;
   value: number;
   positiveOnly?: boolean;
-  onChange?: (state: { name: string; value: number }) => void;
+  onChange?: (state: { _id: number; name: string; value: number }) => void;
+  classList?: string;
 }
 
 const Card = (props: CardProps) => {
-  const { name, onChange } = props;
+  const { _id, name, onChange } = props;
 
   const ref = useRef<HTMLDivElement | null>(null);
   const [focused, setFocused] = useState(false);
@@ -44,9 +47,9 @@ const Card = (props: CardProps) => {
 
   useEffect(() => {
     if (onChange !== undefined) {
-      onChange({ name, value });
+      onChange({ _id, name, value });
     }
-  }, [onChange, name, value]);
+  }, [onChange, _id, name, value]);
 
   const handleFocus: FocusEventHandler = (event) => {
     if (event.target === ref.current) {
@@ -73,11 +76,15 @@ const Card = (props: CardProps) => {
 
   return (
     <div
+      id={props._id.toString()}
       data-testid="card"
       role="button"
       ref={ref}
       tabIndex={0}
-      className="flex items-center justify-between w-full px-4 py-2 border rounded"
+      className={classnames(
+        "flex items-center justify-between w-full px-4 py-2 border rounded",
+        props.classList
+      )}
       onFocus={handleFocus}
     >
       <h2 data-testid="card-name" className="mr-4">

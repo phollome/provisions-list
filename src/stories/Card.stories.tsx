@@ -13,7 +13,7 @@ export default {
 const Template: Story = (args) => <Card {...(args as CardProps)} />;
 
 export const Default = Template.bind({});
-Default.args = { name: "Item" };
+Default.args = { _id: 1, name: "Item" };
 
-export const InitialValue = Template.bind({});
-InitialValue.args = { name: "Item with initial value", value: 5 };
+export const WithInitialValue = Template.bind({});
+WithInitialValue.args = { _id: 1, name: "Item with initial value", value: 5 };

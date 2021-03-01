@@ -8,15 +8,15 @@ test("count", () => {
 
   render(<Counter onChange={onChange} />);
 
-  const increment = screen.queryByTestId(
-    "button-increment"
-  ) as HTMLButtonElement;
+  const value = screen.queryByTestId("counter-value");
+  expect(value).not.toBeNull();
+  expect(value?.textContent).toBe("0");
+
+  const increment = screen.getByTestId("button-increment") as HTMLButtonElement;
   user.click(increment);
   expect(onChange).toHaveBeenLastCalledWith({ value: 1 });
 
-  const decrement = screen.queryByTestId(
-    "button-decrement"
-  ) as HTMLButtonElement;
+  const decrement = screen.getByTestId("button-decrement") as HTMLButtonElement;
   user.click(decrement);
   expect(onChange).toHaveBeenLastCalledWith({ value: 0 });
 
@@ -34,18 +34,18 @@ test("controlled count", () => {
     <Counter value={4} onIncrement={onIncrement} onDecrement={onDecrement} />
   );
 
-  const increment = screen.queryByTestId(
-    "button-increment"
-  ) as HTMLButtonElement;
+  const value = screen.queryByTestId("counter-value");
+  expect(value).not.toBeNull();
+  expect(value?.textContent).toBe("4");
+
+  const increment = screen.getByTestId("button-increment") as HTMLButtonElement;
   user.click(increment);
 
   rerender(
     <Counter value={5} onIncrement={onIncrement} onDecrement={onDecrement} />
   );
 
-  const decrement = screen.queryByTestId(
-    "button-decrement"
-  ) as HTMLButtonElement;
+  const decrement = screen.getByTestId("button-decrement") as HTMLButtonElement;
   user.click(decrement);
 
   expect(onIncrement).toHaveBeenNthCalledWith(1, 5, 4);
