@@ -20,7 +20,8 @@ test("counter starts with passed value", () => {
   render(<Card {...item} onChange={onChange} />);
 
   const counterValue = screen.getByTestId("counter-value");
-  expect(parseInt(counterValue.textContent)).toBe(item.value);
+  expect(counterValue).not.toBeNull();
+  expect(parseInt(counterValue.textContent as string)).toBe(item.value);
   expect(onChange).toHaveBeenNthCalledWith(1, item);
 });
 
@@ -33,8 +34,10 @@ test("increment and decrement by keyboard", () => {
   const counterValue = screen.getByTestId("counter-value");
 
   user.type(card, "+");
-  expect(parseInt(counterValue.textContent)).toBe(1);
+  expect(counterValue).not.toBeNull();
+  expect(parseInt(counterValue.textContent as string)).toBe(1);
 
   user.type(card, "-");
-  expect(parseInt(counterValue.textContent)).toBe(0);
+  expect(counterValue).not.toBeNull();
+  expect(parseInt(counterValue.textContent as string)).toBe(0);
 });

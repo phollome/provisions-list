@@ -1,23 +1,16 @@
+import { ListProps, CardData } from "../types";
 import Card from "./Card";
 
-const List = (props: {
-  data: { _id: number; name: string; value?: number }[];
-  options: { positiveOnly: boolean };
-  onChange?: (item: { _id: number; name: string; value: number }) => void;
-}) => {
-  const handleChange = (state: {
-    _id: number;
-    name: string;
-    value: number;
-  }) => {
-    const item = props.data.find((elem) => elem._id === state._id);
+const List = (props: ListProps) => {
+  const handleChange = (data: CardData) => {
+    const item = props.data.find((elem) => elem._id === data._id);
     if (item !== undefined && props.onChange !== undefined) {
       // only invoke onChange if value really changed
       if (
-        (item.value === undefined && state.value !== 0) ||
-        (item.value !== undefined && item.value !== state.value)
+        (item.value === undefined && data.value !== 0) ||
+        (item.value !== undefined && item.value !== data.value)
       ) {
-        props.onChange({ ...state });
+        props.onChange({ ...data });
       }
     }
   };

@@ -1,15 +1,7 @@
 import { FocusEventHandler, useEffect, useRef, useState } from "react";
 import classnames from "classnames";
 import Counter from "./Counter";
-
-export interface CardProps {
-  _id: number;
-  name: string;
-  value: number;
-  positiveOnly?: boolean;
-  onChange?: (state: { _id: number; name: string; value: number }) => void;
-  classList?: string;
-}
+import { CardProps } from "../types";
 
 const Card = (props: CardProps) => {
   const { _id, name, onChange } = props;

@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
+import { SearchInputProps } from "../types";
 
-const SearchInput = (props: { onChange: React.ChangeEventHandler }) => {
+const SearchInput = (props: SearchInputProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {

@@ -1,10 +1,8 @@
 import { Reducer, useEffect, useReducer } from "react";
+import { CounterProps, CounterState } from "../types";
 
 interface Action {
   type: string;
-}
-interface State {
-  value: number;
 }
 
 const InitialState = {
@@ -16,7 +14,10 @@ const ActionTypes = {
   Decrement: "decrement",
 };
 
-const reducer: Reducer<State, Action> = (prevState: State, action: Action) => {
+const reducer: Reducer<CounterState, Action> = (
+  prevState: CounterState,
+  action: Action
+) => {
   switch (action.type) {
     case ActionTypes.Increment:
       return { value: prevState.value + 1 };
@@ -27,13 +28,7 @@ const reducer: Reducer<State, Action> = (prevState: State, action: Action) => {
   }
 };
 
-function Counter(props: {
-  defaultValue?: number;
-  value?: number;
-  onChange?: (state: { value: number }) => void;
-  onIncrement?: (value: number, prevValue: number) => void;
-  onDecrement?: (value: number, prevValue: number) => void;
-}) {
+function Counter(props: CounterProps) {
   const { onChange } = props;
   const [state, dispatch] = useReducer(
     reducer,
