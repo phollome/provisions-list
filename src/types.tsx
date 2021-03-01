@@ -27,6 +27,30 @@ export interface CounterProps {
   onDecrement?: CounterChangeHandler;
 }
 
+export enum CounterButtonType {
+  Increment = "increment",
+  Decrement = "decrement",
+}
+
+export type CounterButtonAction = (
+  prevState: CounterState,
+  action: {
+    type: CounterButtonType;
+  }
+) => CounterState;
+
+export type CounterButtonDispatch = (action: {
+  type: CounterButtonType;
+}) => void;
+
+export interface CounterButtonProps {
+  id: string;
+  type: CounterButtonType;
+  value?: number;
+  onChange?: CounterChangeHandler;
+  dispatch?: CounterButtonDispatch;
+}
+
 export interface ListProps {
   data: CardData[];
   options: { positiveOnly: boolean };

@@ -1,27 +1,17 @@
-import { Reducer, useEffect, useReducer } from "react";
-import { CounterProps, CounterState } from "../types";
-
-interface Action {
-  type: string;
-}
+import { useEffect, useReducer } from "react";
+import { CounterButtonAction, CounterButtonType, CounterProps } from "../types";
+import CounterButton from "./CounterButton";
 
 const InitialState = {
   value: 0,
 };
 
-const ActionTypes = {
-  Increment: "increment",
-  Decrement: "decrement",
-};
-
-const reducer: Reducer<CounterState, Action> = (
-  prevState: CounterState,
-  action: Action
-) => {
+const reducer: CounterButtonAction = (prevState, action) => {
+  console.log(prevState, action);
   switch (action.type) {
-    case ActionTypes.Increment:
+    case CounterButtonType.Increment:
       return { value: prevState.value + 1 };
-    case ActionTypes.Decrement:
+    case CounterButtonType.Decrement:
       return { value: prevState.value - 1 };
     default:
       return prevState;
@@ -43,38 +33,30 @@ function Counter(props: CounterProps) {
     }
   }, [onChange, state]);
 
+  const value = props.value ?? state.value;
+
   return (
     <div className="flex justify-center">
-      <button
+      <CounterButton
         id="button-decrement"
-        data-testid="button-decrement"
-        className="h-10 w-10 border rounded-full flex items-center justify-center"
-        onClick={() =>
-          props.onDecrement !== undefined && props.value !== undefined
-            ? props.onDecrement(props.value - 1, props.value)
-            : dispatch({ type: ActionTypes.Decrement })
-        }
-      >
-        -
-      </button>
+        type={CounterButtonType.Decrement}
+        value={value}
+        onChange={props.onDecrement}
+        dispatch={dispatch}
+      />
       <div
         data-testid="counter-value"
         className="h-10 w-10 flex items-center justify-center text-lg"
       >
-        {props.value !== undefined ? props.value : state.value}
+        {value}
       </div>
-      <button
+      <CounterButton
         id="button-increment"
-        data-testid="button-increment"
-        className="h-10 w-10 border rounded-full flex items-center justify-center"
-        onClick={() =>
-          props.onIncrement !== undefined && props.value !== undefined
-            ? props.onIncrement(props.value + 1, props.value)
-            : dispatch({ type: ActionTypes.Increment })
-        }
-      >
-        +
-      </button>
+        type={CounterButtonType.Increment}
+        value={value}
+        onChange={props.onIncrement}
+        dispatch={dispatch}
+      />
     </div>
   );
 }
