@@ -4,13 +4,13 @@ import Button from "../components/Button";
 
 test("handle click", () => {
   const label = "Click me";
-  const handler = jest.fn();
+  const onClick = jest.fn();
 
-  render(<Button label={label} onClick={handler} />);
+  render(<Button label={label} onClick={onClick} />);
 
   const button = screen.getByTestId("button");
   user.click(button);
 
   expect(button.textContent).toBe(label);
-  expect(handler).toBeCalledTimes(1);
+  expect(onClick).toBeCalledTimes(1);
 });

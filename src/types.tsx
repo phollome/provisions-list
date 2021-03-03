@@ -1,6 +1,7 @@
 export interface ButtonProps {
   label: string;
   onClick: React.MouseEventHandler;
+  "data-testid"?: string;
 }
 
 export interface CardData {
