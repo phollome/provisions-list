@@ -1,3 +1,8 @@
+export interface ButtonProps {
+  label: string;
+  onClick: React.MouseEventHandler;
+}
+
 export interface CardData {
   _id: number;
   name: string;
