@@ -57,6 +57,12 @@ export interface CounterButtonProps {
   dispatch?: CounterButtonDispatch;
 }
 
+export interface DialogProps {
+  visible: boolean;
+  important: boolean;
+  onSubmit?: React.MouseEventHandler;
+}
+
 export interface ListProps {
   data: CardData[];
   options: { positiveOnly: boolean };

@@ -11,4 +11,9 @@ const Template: Story = (args) => <Dialog {...args} />;
 
 export const Default = Template.bind({});
 Default.args = { visible: true };
-Default.argTypes = { visible: { control: { type: "boolean" } } };
+Default.argTypes = {
+  visible: {
+    control: { type: "boolean" },
+    important: { control: { type: "boolean" } },
+  },
+};

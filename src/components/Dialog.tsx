@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
+import { DialogProps } from "../types";
 import Button from "./Button";
 
-const Dialog = (props: {
-  visible: boolean;
-  onSubmit?: React.MouseEventHandler;
-}) => {
+const Dialog = (props: DialogProps) => {
   const { visible } = props;
   const [show, setShow] = useState(false);
 
@@ -21,6 +19,8 @@ const Dialog = (props: {
       data-testid="dialog-background"
       role="dialog"
       className="fixed inset-0 z-40 w-full flex items-end bg-black bg-opacity-20"
+      onClick={props.important ? undefined : handleClose}
+      aria-hidden="true"
     >
       <div
         data-testid="dialog"
@@ -45,6 +45,7 @@ const Dialog = (props: {
 
 Dialog.defaultProps = {
   visible: false,
+  important: false,
 };
 
 export default Dialog;

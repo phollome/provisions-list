@@ -31,3 +31,18 @@ test("handle submit dialog", () => {
 
   expect(onSubmit).toBeCalledTimes(1);
 });
+
+test("close with background click", () => {
+  render(<Dialog visible />);
+
+  const background = screen.getByTestId("dialog-background");
+  user.click(background);
+
+  expect(() => screen.getByTestId("dialog")).toThrow();
+
+  render(<Dialog visible important />);
+
+  user.click(background);
+
+  expect(() => screen.getByTestId("dialog")).not.toThrow();
+});
