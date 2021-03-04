@@ -11,9 +11,20 @@ const Template: Story = (args) => <Dialog {...args} />;
 
 export const Default = Template.bind({});
 Default.args = { visible: true };
-Default.argTypes = {
-  visible: {
-    control: { type: "boolean" },
-    important: { control: { type: "boolean" } },
-  },
+
+export const WithChildren = Template.bind({});
+WithChildren.args = {
+  children: (
+    <>
+      <h1 className="text-xl font-bold" data-testid="test-headline">
+        Headline
+      </h1>
+      <p data-testid="test-paragraph">Paragraph</p>
+    </>
+  ),
+  visible: true,
+};
+WithChildren.argTypes = {
+  important: { control: { disable: true } },
+  children: { control: { disable: true } },
 };

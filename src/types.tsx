@@ -1,9 +1,3 @@
-export interface ButtonProps {
-  label: string;
-  onClick: React.MouseEventHandler;
-  "data-testid"?: string;
-}
-
 export interface CardData {
   _id: number;
   name: string;
@@ -55,12 +49,6 @@ export interface CounterButtonProps {
   value?: number;
   onChange?: CounterChangeHandler;
   dispatch?: CounterButtonDispatch;
-}
-
-export interface DialogProps {
-  visible: boolean;
-  important: boolean;
-  onSubmit?: React.MouseEventHandler;
 }
 
 export interface ListProps {

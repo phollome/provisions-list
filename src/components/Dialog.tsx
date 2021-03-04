@@ -1,12 +1,17 @@
-import { useEffect, useState } from "react";
-import { DialogProps } from "../types";
+import * as React from "react";
 import Button from "./Button";
+export interface DialogProps {
+  children?: React.ReactChild | React.ReactChild[];
+  visible: boolean;
+  important: boolean;
+  onSubmit?: React.MouseEventHandler;
+}
 
-const Dialog = (props: DialogProps) => {
+function Dialog(props: DialogProps) {
   const { visible } = props;
-  const [show, setShow] = useState(false);
+  const [show, setShow] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setShow(visible);
   }, [visible]);
 
@@ -26,22 +31,25 @@ const Dialog = (props: DialogProps) => {
         data-testid="dialog"
         className="w-full p-4 overflow-hidden bg-white border rounded-t-lg"
       >
-        {props.onSubmit !== undefined ? (
+        {props.children !== undefined ? props.children : null}
+        <div className="mt-4">
+          {props.onSubmit !== undefined ? (
+            <Button
+              data-testid="submit-button"
+              label="Submit"
+              onClick={props.onSubmit}
+            />
+          ) : null}
           <Button
-            data-testid="submit-button"
-            label="Submit"
-            onClick={props.onSubmit}
+            data-testid="close-button"
+            label="Close"
+            onClick={handleClose}
           />
-        ) : null}
-        <Button
-          data-testid="close-button"
-          label="Close"
-          onClick={handleClose}
-        />
+        </div>
       </div>
     </div>
   ) : null;
-};
+}
 
 Dialog.defaultProps = {
   visible: false,

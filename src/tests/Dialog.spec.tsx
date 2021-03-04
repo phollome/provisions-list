@@ -46,3 +46,15 @@ test("close with background click", () => {
 
   expect(() => screen.getByTestId("dialog")).not.toThrow();
 });
+
+test("render children", () => {
+  render(
+    <Dialog visible>
+      <h1 data-testid="test-headline">Headline</h1>
+      <p data-testid="test-paragraph">Paragraph</p>
+    </Dialog>
+  );
+
+  expect(() => screen.getByTestId("test-headline")).not.toThrow();
+  expect(() => screen.getByTestId("test-paragraph")).not.toThrow();
+});
