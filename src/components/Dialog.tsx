@@ -29,7 +29,9 @@ function Dialog(props: DialogProps) {
     >
       <div
         data-testid="dialog"
+        onClick={(evt) => evt.stopPropagation()}
         className="w-full p-4 overflow-hidden bg-white border rounded-t-lg"
+        aria-hidden="true"
       >
         {props.children !== undefined ? props.children : null}
         <div className="mt-4">
@@ -37,6 +39,7 @@ function Dialog(props: DialogProps) {
             <Button
               data-testid="submit-button"
               label="Submit"
+              classList="mb-2"
               onClick={props.onSubmit}
             />
           ) : null}
