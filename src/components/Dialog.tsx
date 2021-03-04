@@ -1,10 +1,13 @@
 import * as React from "react";
-import Button from "./Button";
-export interface DialogProps {
+import classnames from "classnames";
+import Button, { ButtonProps } from "./Button";
+
+interface DialogProps {
+  actions?: ButtonProps[];
   children?: React.ReactChild | React.ReactChild[];
-  visible: boolean;
   important: boolean;
   onSubmit?: React.MouseEventHandler;
+  visible: boolean;
 }
 
 function Dialog(props: DialogProps) {
@@ -35,6 +38,18 @@ function Dialog(props: DialogProps) {
       >
         {props.children !== undefined ? props.children : null}
         <div className="mt-4">
+          {props.actions !== undefined
+            ? props.actions.map((action) => {
+                const classNames = classnames(action.classList, "mb-2");
+                return (
+                  <Button
+                    key={action.label}
+                    {...action}
+                    classList={classNames}
+                  />
+                );
+              })
+            : null}
           {props.onSubmit !== undefined ? (
             <Button
               data-testid="submit-button"

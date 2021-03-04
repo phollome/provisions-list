@@ -58,3 +58,25 @@ test("render children", () => {
   expect(() => screen.getByTestId("test-headline")).not.toThrow();
   expect(() => screen.getByTestId("test-paragraph")).not.toThrow();
 });
+
+test("provide custom actions", () => {
+  const actions = [
+    {
+      label: "Custom action 1",
+      onClick: jest.fn(),
+      "data-testid": "custom-button-1",
+    },
+    {
+      label: "Custom action 2",
+      onClick: jest.fn(),
+      "data-testid": "custom-button-2",
+    },
+  ];
+  render(<Dialog actions={actions} visible />);
+
+  actions.forEach(action => {
+    const button = screen.getByTestId(action["data-testid"]);
+    user.click(button);
+    expect(action.onClick).toBeCalledTimes(1);
+  });
+});

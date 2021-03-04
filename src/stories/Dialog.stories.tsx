@@ -39,3 +39,16 @@ Submit.argTypes = {
   important: { control: { disable: true } },
   children: { control: { disable: true } },
 };
+
+export const Actions = Template.bind({});
+Actions.args = {
+  actions: [
+    { label: "Custom action 1", onClick: action("custom button 1 clicked") },
+    { label: "Custom action 2", onClick: action("custom button 2 clicked") },
+  ],
+  visible: true,
+};
+Actions.argTypes = {
+  important: { control: { disable: true } },
+  actions: { control: { disable: true } },
+};
