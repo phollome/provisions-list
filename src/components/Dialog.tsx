@@ -8,6 +8,7 @@ interface DialogProps {
   important: boolean;
   onSubmit?: React.MouseEventHandler;
   visible: boolean;
+  insideDocs: boolean;
 }
 
 function Dialog(props: DialogProps) {
@@ -22,11 +23,16 @@ function Dialog(props: DialogProps) {
     setShow(false);
   };
 
+  const containerClassNames = classnames(
+    "w-full flex items-end bg-black bg-opacity-20",
+    props.insideDocs ? "" : "fixed inset-0 z-40"
+  );
+
   return show ? (
     <div
       data-testid="dialog-background"
       role="dialog"
-      className="fixed inset-0 z-40 w-full flex items-end bg-black bg-opacity-20"
+      className={containerClassNames}
       onClick={props.important ? undefined : handleClose}
       aria-hidden="true"
     >
@@ -72,6 +78,7 @@ function Dialog(props: DialogProps) {
 Dialog.defaultProps = {
   visible: false,
   important: false,
+  insideDocs: false,
 };
 
 export default Dialog;

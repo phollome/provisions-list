@@ -6,9 +6,15 @@ import Dialog from "../components/Dialog";
 export default {
   title: "Components/Dialog",
   component: Dialog,
+  argTypes: { insideDocs: { control: { disable: true } } },
+  args: { insideDocs: true },
 } as Meta;
 
-const Template: Story = (args) => <Dialog {...args} />;
+const Template: Story = (args) => (
+  <div className="w-full min-h-full">
+    <Dialog {...args} />
+  </div>
+);
 
 export const Empty = Template.bind({});
 Empty.args = { visible: true };
@@ -17,10 +23,8 @@ export const Children = Template.bind({});
 Children.args = {
   children: (
     <>
-      <h1 className="text-xl font-bold" data-testid="test-headline">
-        Headline
-      </h1>
-      <p data-testid="test-paragraph">Paragraph</p>
+      <h1 className="text-xl font-bold">Headline</h1>
+      <p>Paragraph</p>
     </>
   ),
   visible: true,
